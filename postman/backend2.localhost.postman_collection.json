@@ -1,0 +1,716 @@
+{
+	"info": {
+		"_postman_id": "f7e289c5-bb60-43db-a285-c31f0f3997ef",
+		"name": "Backend 2 (backend2.localhost)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21812106",
+		"_collection_link": "https://httpfoundation.postman.co/workspace/Team-Workspace~34357df0-3ea3-4d9a-8700-7d60ec444872/collection/21812106-f7e289c5-bb60-43db-a285-c31f0f3997ef?action=share&creator=21812106&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful login\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    if (pm.response.code === 200) {\r",
+											"        pm.collectionVariables.set(\"token\", jsonData.token);\r",
+											"    } else {\r",
+											"        throw Error(jsonData.message);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Teams",
+					"item": [
+						{
+							"name": "Get Teams",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"array\",\r",
+											"    \"items\": {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"id\": {\r",
+											"                \"type\": \"number\"\r",
+											"            },\r",
+											"            \"name\": {\r",
+											"                \"type\": \"string\",\r",
+											"            },\r",
+											"            \"contactEmail\": {\r",
+											"                \"type\": \"string\",\r",
+											"            },\r",
+											"            \"plannedStartingTime\": {\r",
+											"                \"type\": [\"string\", \"null\"],\r",
+											"            },\r",
+											"            \"startingTime\": {\r",
+											"                \"type\": [\"string\", \"null\"],\r",
+											"            },\r",
+											"            \"accessCode\": {\r",
+											"                \"type\": \"string\",\r",
+											"                \"minLength\": 9,\r",
+											"                \"maxLength\": 9\r",
+											"            },\r",
+											"            \"createdAt\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"updatedAt\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"averagePace\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\"id\", \"name\", \"contactEmail\", \"plannedStartingTime\", \"startingTime\", \"accessCode\", \"createdAt\", \"updatedAt\", \"averagePace\"]\r",
+											"    }\r",
+											"};\r",
+											"pm.test('Schema is valid', function () {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/teams",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"teams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Team",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"type\": \"number\"\r",
+											"        },\r",
+											"        \"name\": {\r",
+											"            \"type\": \"string\",\r",
+											"        },\r",
+											"        \"contactEmail\": {\r",
+											"            \"type\": \"string\",\r",
+											"        },\r",
+											"        \"plannedStartingTime\": {\r",
+											"            \"type\": [\"string\", \"null\"],\r",
+											"        },\r",
+											"        \"startingTime\": {\r",
+											"            \"type\": [\"string\", \"null\"],\r",
+											"        },\r",
+											"        \"accessCode\": {\r",
+											"            \"type\": \"string\",\r",
+											"            \"minLength\": 9,\r",
+											"            \"maxLength\": 9\r",
+											"        },\r",
+											"        \"createdAt\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"updatedAt\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"averagePace\": {\r",
+											"            \"type\": \"string\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"id\", \"name\", \"contactEmail\", \"plannedStartingTime\", \"startingTime\", \"accessCode\", \"createdAt\", \"updatedAt\", \"averagePace\"]\r",
+											"};\r",
+											"pm.test('Schema is valid', function () {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Team 3\",\r\n    \"contactEmail\": \"team3@example.com\",\r\n    \"plannedStartingTime\": \"2023-04-23T10:00:00.000Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/teams",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"teams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Team",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"type\": \"number\"\r",
+											"        },\r",
+											"        \"name\": {\r",
+											"            \"type\": \"string\",\r",
+											"        },\r",
+											"        \"contactEmail\": {\r",
+											"            \"type\": \"string\",\r",
+											"        },\r",
+											"        \"plannedStartingTime\": {\r",
+											"            \"type\": [\"string\", \"null\"],\r",
+											"        },\r",
+											"        \"startingTime\": {\r",
+											"            \"type\": [\"string\", \"null\"],\r",
+											"        },\r",
+											"        \"accessCode\": {\r",
+											"            \"type\": \"string\",\r",
+											"            \"minLength\": 9,\r",
+											"            \"maxLength\": 9\r",
+											"        },\r",
+											"        \"createdAt\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"updatedAt\": {\r",
+											"            \"type\": \"string\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"id\", \"name\", \"contactEmail\", \"plannedStartingTime\", \"startingTime\", \"accessCode\", \"createdAt\", \"updatedAt\"]\r",
+											"};\r",
+											"pm.test('Schema is valid', function () {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Team 2b\",\r\n    \"contactEmail\": \"team2b@example.com\",\r\n    \"plannedStartingTime\": \"2023-04-23T11:30:00.000Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/teams/:teamId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"teams",
+										":teamId"
+									],
+									"variable": [
+										{
+											"key": "teamId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Team",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/teams/:teamId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"teams",
+										":teamId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "teamId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Runner App",
+			"item": [
+				{
+					"name": "MyTeam",
+					"item": [
+						{
+							"name": "My Team",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/myteam",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"myteam"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Schedule",
+					"item": [
+						{
+							"name": "Curent Runner",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/currentRunner",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"currentRunner"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Next Run",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/nextRun?runnerId=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"nextRun"
+									],
+									"query": [
+										{
+											"key": "runnerId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Handover",
+					"item": [
+						{
+							"name": "Handover: Start",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"runnerId\": 1,\r\n    \"stageId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/handover/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"handover",
+										"start"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Handover: Finish",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"runnerId\": 1,\r\n    \"stageId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/handover/finish",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"handover",
+										"finish"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Assignments",
+					"item": [
+						{
+							"name": "Get Assignments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const schema = {\r",
+											"    \"type\": \"array\",\r",
+											"    \"items\": {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"id\": {\r",
+											"                \"type\": \"number\"\r",
+											"            },\r",
+											"            \"name\": {\r",
+											"                \"type\": \"string\",\r",
+											"            },\r",
+											"            \"contactEmail\": {\r",
+											"                \"type\": \"string\",\r",
+											"            },\r",
+											"            \"plannedStartingTime\": {\r",
+											"                \"type\": [\"string\", \"null\"],\r",
+											"            },\r",
+											"            \"startingTime\": {\r",
+											"                \"type\": [\"string\", \"null\"],\r",
+											"            },\r",
+											"            \"accessCode\": {\r",
+											"                \"type\": \"string\",\r",
+											"                \"minLength\": 9,\r",
+											"                \"maxLength\": 9\r",
+											"            },\r",
+											"            \"createdAt\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"updatedAt\": {\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"averagePace\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\"id\", \"name\", \"contactEmail\", \"plannedStartingTime\", \"startingTime\", \"accessCode\", \"createdAt\", \"updatedAt\", \"averagePace\"]\r",
+											"    }\r",
+											"};\r",
+											"pm.test('Schema is valid', function () {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/assignments",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"assignments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{accessCode}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Utility",
+			"item": [
+				{
+					"name": "Reset DB",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/resetDb",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resetDb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset handovers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/resetHandover",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resetHandover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Handover",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamId\": 1,\r\n    \"stageId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/setHandover",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"setHandover"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "host",
+			"value": "http://backend2.localhost/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "accessCode",
+			"value": "123456789",
+			"type": "string"
+		}
+	]
+}
